@@ -1,4 +1,4 @@
-package com.shigotosagashi.jobdomainservice.domain.lombok;
+package com.shigotosagashi.jobdomainservice.domain;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TestLombok {
+public class ExampleEntity {
 
   @Id
   @Builder.Default
@@ -30,7 +30,15 @@ public class TestLombok {
   @Builder.Default
   int numberTest = new Random().nextInt();
 
-  public static TestLombok mock() {
-    return TestLombok.builder().build();
+  public static ExampleEntity create(String testId, String textTest, int numberTest) {
+    return ExampleEntity.builder()
+        .testId(testId)
+        .textTest(textTest)
+        .numberTest(numberTest)
+        .build();
+  }
+
+  public static ExampleEntity mock() {
+    return ExampleEntity.builder().build();
   }
 }

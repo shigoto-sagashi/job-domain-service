@@ -1,6 +1,6 @@
 package com.shigotosagashi.jobdomainservice.repository;
 
-import com.shigotosagashi.jobdomainservice.domain.TestSpring;
+import com.shigotosagashi.jobdomainservice.domain.ExampleEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,17 +15,17 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-public class TestSpringRepositoryTest extends BaseRepositoryTest {
+public class ExampleEntityRepositoryTest extends BaseRepositoryTest {
 
   @Autowired
-  private TestSpringRepository repository;
+  private ExampleEntityRepository repository;
 
   @Test
   void save_saves() {
-    TestSpring test = TestSpring.mock();
+    ExampleEntity test = ExampleEntity.mock();
 
     repository.save(test);
-    Optional<TestSpring> result = repository.findByTestId(test.getTestId());
+    Optional<ExampleEntity> result = repository.findByTestId(test.getTestId());
 
     assertThat(result).isEqualTo(Optional.of(test));
   }
@@ -34,22 +34,22 @@ public class TestSpringRepositoryTest extends BaseRepositoryTest {
   void findByTextTest_findCorrectTests() {
     String textTest = UUID.randomUUID().toString();
 
-    List<TestSpring> sameTexts = Stream.generate(() -> {
-      TestSpring mock = TestSpring.mock();
-      mock.setTextTest(textTest);
-      return mock;
-    })
+    List<ExampleEntity> sameTexts = Stream.generate(() -> ExampleEntity.mock()
+        .toBuilder()
+        .textTest(textTest)
+        .build()
+    )
         .limit(3)
         .collect(Collectors.toList());
 
-    List<TestSpring> differentTexts = Stream.generate(TestSpring::mock)
+    List<ExampleEntity> differentTexts = Stream.generate(ExampleEntity::mock)
         .limit(3)
         .collect(Collectors.toList());
 
     repository.saveAll(sameTexts);
     repository.saveAll(differentTexts);
 
-    List<TestSpring> result = repository.findByTextTest(textTest);
+    List<ExampleEntity> result = repository.findByTextTest(textTest);
     assertThat(result).containsOnlyOnceElementsOf(sameTexts);
   }
 
@@ -57,22 +57,22 @@ public class TestSpringRepositoryTest extends BaseRepositoryTest {
   public void findByNumberTest_findCorrectTests() {
     int numberTest = new Random().nextInt();
 
-    List<TestSpring> sameNumbers = Stream.generate(() -> {
-      TestSpring mock = TestSpring.mock();
-      mock.setNumberTest(numberTest);
-      return mock;
-    })
+    List<ExampleEntity> sameNumbers = Stream.generate(() -> ExampleEntity.mock()
+        .toBuilder()
+        .numberTest(numberTest)
+        .build()
+    )
         .limit(3)
         .collect(Collectors.toList());
 
-    List<TestSpring> differentNumbers = Stream.generate(TestSpring::mock)
+    List<ExampleEntity> differentNumbers = Stream.generate(ExampleEntity::mock)
         .limit(3)
         .collect(Collectors.toList());
 
     repository.saveAll(sameNumbers);
     repository.saveAll(differentNumbers);
 
-    List<TestSpring> result = repository.findByNumberTest(numberTest);
+    List<ExampleEntity> result = repository.findByNumberTest(numberTest);
     assertThat(result).containsOnlyOnceElementsOf(sameNumbers);
   }
 
