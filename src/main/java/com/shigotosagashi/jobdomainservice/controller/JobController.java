@@ -3,6 +3,7 @@ package com.shigotosagashi.jobdomainservice.controller;
 import com.shigotosagashi.jobdomainservice.dto.out.ExampleEntityDto;
 import com.shigotosagashi.jobdomainservice.repository.ExampleEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,5 +40,10 @@ public class JobController {
     return exampleEntityRepository.findById(id)
         .map(ExampleEntityDto::fromEntity)
         .orElseThrow(() -> new EntityNotFoundException("Job not found for id: " + id));
+  }
+
+  @DeleteMapping("/delete/{id}")
+  public void delete(@PathVariable String id) {
+    exampleEntityRepository.deleteById(id);
   }
 }

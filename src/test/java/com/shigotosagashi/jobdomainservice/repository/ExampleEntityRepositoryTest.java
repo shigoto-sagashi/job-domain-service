@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -20,27 +18,6 @@ public class ExampleEntityRepositoryTest extends BaseRepositoryTest {
 
   @Autowired
   private ExampleEntityRepository repository;
-
-  @Test
-  void save_savesExampleEntity() {
-    ExampleEntity test = ExampleEntity.mock();
-
-    repository.save(test);
-    Optional<ExampleEntity> result = repository.findByTestId(test.getTestId());
-
-    assertThat(result).isEqualTo(Optional.of(test));
-  }
-
-  @Test
-  void findByTestId_findsExpectedEntity() {
-    ExampleEntity test1 = ExampleEntity.mock();
-    ExampleEntity test2 = ExampleEntity.mock();
-
-    repository.saveAll(Arrays.asList(test1, test2));
-    Optional<ExampleEntity> result = repository.findByTestId(test1.getTestId());
-
-    assertThat(result).isEqualTo(Optional.of(test1));
-  }
 
   @Test
   void findByTextTest_findsExpectedEntity() {
