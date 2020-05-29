@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class ExampleEntityRepositoryTest extends BaseRepositoryTest {
   private ExampleEntityRepository repository;
 
   @Test
-  void save_saves() {
+  void save_savesExampleEntity() {
     ExampleEntity test = ExampleEntity.mock();
 
     repository.save(test);
@@ -31,7 +32,18 @@ public class ExampleEntityRepositoryTest extends BaseRepositoryTest {
   }
 
   @Test
-  void findByTextTest_findCorrectTests() {
+  void findByTestId_findsExpectedEntity() {
+    ExampleEntity test1 = ExampleEntity.mock();
+    ExampleEntity test2 = ExampleEntity.mock();
+
+    repository.saveAll(Arrays.asList(test1, test2));
+    Optional<ExampleEntity> result = repository.findByTestId(test1.getTestId());
+
+    assertThat(result).isEqualTo(Optional.of(test1));
+  }
+
+  @Test
+  void findByTextTest_findsExpectedEntity() {
     String textTest = UUID.randomUUID().toString();
 
     List<ExampleEntity> sameTexts = Stream.generate(() -> ExampleEntity.mock()
@@ -54,7 +66,7 @@ public class ExampleEntityRepositoryTest extends BaseRepositoryTest {
   }
 
   @Test
-  public void findByNumberTest_findCorrectTests() {
+  public void findByNumberTest_findsExpectedEntity() {
     int numberTest = new Random().nextInt();
 
     List<ExampleEntity> sameNumbers = Stream.generate(() -> ExampleEntity.mock()

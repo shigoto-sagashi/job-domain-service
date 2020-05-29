@@ -38,6 +38,6 @@ public class JobController {
   public ExampleEntityDto findById(@PathVariable String id) {
     return exampleEntityRepository.findById(id)
         .map(ExampleEntityDto::fromEntity)
-        .orElseThrow(() -> new EntityNotFoundException("Entity not found for id: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Job not found for id: " + id));
   }
 }

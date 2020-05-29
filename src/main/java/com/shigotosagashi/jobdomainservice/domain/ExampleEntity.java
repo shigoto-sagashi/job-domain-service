@@ -22,17 +22,10 @@ import java.util.UUID;
 public class ExampleEntity {
 
   @Id
-  @Builder.Default
-  String testId = UUID.randomUUID().toString();
-
-  @Builder.Default
-  String textTest = new Random().nextBoolean() ? UUID.randomUUID().toString() : null;
-
-  @Builder.Default
-  int numberTest = new Random().nextInt();
-
-  @Builder.Default
-  long datetimeTest = Instant.now().toEpochMilli();
+  String testId;
+  String textTest;
+  int numberTest;
+  long datetimeTest;
 
   public static ExampleEntity create(String testId,
                                      String textTest,
@@ -47,6 +40,11 @@ public class ExampleEntity {
   }
 
   public static ExampleEntity mock() {
-    return ExampleEntity.builder().build();
+    return ExampleEntity.builder()
+        .testId(UUID.randomUUID().toString())
+        .textTest(new Random().nextBoolean() ? UUID.randomUUID().toString() : null)
+        .numberTest(new Random().nextInt())
+        .datetimeTest(Instant.now().toEpochMilli())
+        .build();
   }
 }
