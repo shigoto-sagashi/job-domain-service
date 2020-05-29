@@ -1,39 +1,43 @@
 package com.shigotosagashi.jobdomainservice.controller;
 
 import com.shigotosagashi.jobdomainservice.dto.out.ExampleEntityDto;
+import com.shigotosagashi.jobdomainservice.repository.ExampleEntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/job")
 public class JobController {
 
+  @Autowired
+  private ExampleEntityRepository exampleEntityRepository;
+
   @PostMapping("/save")
   public ExampleEntityDto save(
       @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
+    return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity()));
+  }
 
-    return new ExampleEntityDto(
-        UUID.randomUUID().toString(),
-        example.textTest,
-        example.numberTest
-    );
+  @PutMapping("/update/{id}")
+  public ExampleEntityDto update(
+      @PathVariable String id,
+      @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
+    return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity(id)));
   }
 
   @GetMapping("/find/{id}")
   public ExampleEntityDto findById(@PathVariable String id) {
-    return new ExampleEntityDto(
-        id,
-        new Random().nextBoolean() ? Optional.of("FOUND_EXT") : Optional.empty(),
-        new Random().nextInt()
-    );
+    return exampleEntityRepository.findById(id)
+        .map(ExampleEntityDto::fromEntity)
+        .orElseThrow(() -> new EntityNotFoundException("Entity not found for id: " + id));
   }
 }

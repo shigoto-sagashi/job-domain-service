@@ -3,6 +3,7 @@ package com.shigotosagashi.jobdomainservice.dto.in;
 import com.shigotosagashi.jobdomainservice.domain.ExampleEntity;
 
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -19,10 +20,15 @@ public class ExampleEntityDto {
   }
 
   public ExampleEntity toEntity() {
+    return toEntity(UUID.randomUUID().toString());
+  }
+
+  public ExampleEntity toEntity(String id) {
     return ExampleEntity.create(
-        UUID.randomUUID().toString(),
+        id,
         textTest.orElse(null),
-        numberTest
+        numberTest,
+        Instant.now().toEpochMilli()
     );
   }
 

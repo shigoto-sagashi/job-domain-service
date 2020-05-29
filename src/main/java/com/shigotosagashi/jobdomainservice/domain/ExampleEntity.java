@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.Instant;
 import java.util.Random;
 import java.util.UUID;
 
@@ -30,11 +31,18 @@ public class ExampleEntity {
   @Builder.Default
   int numberTest = new Random().nextInt();
 
-  public static ExampleEntity create(String testId, String textTest, int numberTest) {
+  @Builder.Default
+  long datetimeTest = Instant.now().toEpochMilli();
+
+  public static ExampleEntity create(String testId,
+                                     String textTest,
+                                     int numberTest,
+                                     long datetimeTest) {
     return ExampleEntity.builder()
         .testId(testId)
         .textTest(textTest)
         .numberTest(numberTest)
+        .datetimeTest(datetimeTest)
         .build();
   }
 

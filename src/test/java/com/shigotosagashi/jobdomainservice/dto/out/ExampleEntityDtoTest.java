@@ -17,6 +17,7 @@ public class ExampleEntityDtoTest {
     assertThat(result.testId).isEqualTo(entity.getTestId());
     assertThat(result.textTest).isEqualTo(Optional.ofNullable(entity.getTextTest()));
     assertThat(result.numberTest).isEqualTo(entity.getNumberTest());
+    assertThat(result.datetimeTest).isEqualTo(entity.getDatetimeTest());
   }
 
 }
