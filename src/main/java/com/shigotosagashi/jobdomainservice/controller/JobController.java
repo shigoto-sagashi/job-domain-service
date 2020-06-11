@@ -22,27 +22,27 @@ public class JobController {
   @Autowired
   private ExampleEntityRepository exampleEntityRepository;
 
-  @PostMapping("/save")
+  @PostMapping
   public ExampleEntityDto save(
       @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
     return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity()));
   }
 
-  @PutMapping("/update/{id}")
+  @PutMapping("/{id}")
   public ExampleEntityDto update(
       @PathVariable String id,
       @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
     return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity(id)));
   }
 
-  @GetMapping("/find/{id}")
+  @GetMapping("/{id}")
   public ExampleEntityDto findById(@PathVariable String id) {
     return exampleEntityRepository.findById(id)
         .map(ExampleEntityDto::fromEntity)
         .orElseThrow(() -> new EntityNotFoundException("Job not found for id: " + id));
   }
 
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping("/{id}")
   public void delete(@PathVariable String id) {
     exampleEntityRepository.deleteById(id);
   }
