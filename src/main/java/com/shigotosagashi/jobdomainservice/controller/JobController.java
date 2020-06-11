@@ -17,7 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/job")
+@RequestMapping("/jobs")
 public class JobController {
 
   @Autowired
