@@ -1,0 +1,3 @@
+DROP TABLE EXAMPLE_ENTITY;
+
+DELETE FROM schema_version WHERE version = '001';

@@ -1,0 +1,49 @@
+package com.shigotosagashi.jobdomainservice.controller;
+
+import com.shigotosagashi.jobdomainservice.dto.out.ExampleEntityDto;
+import com.shigotosagashi.jobdomainservice.repository.ExampleEntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping("/jobs")
+public class JobController {
+
+  @Autowired
+  private ExampleEntityRepository exampleEntityRepository;
+
+  @PostMapping
+  public ExampleEntityDto save(
+      @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
+    return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity()));
+  }
+
+  @PutMapping("/{id}")
+  public ExampleEntityDto update(
+      @PathVariable String id,
+      @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
+    return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity(id)));
+  }
+
+  @GetMapping("/{id}")
+  public ExampleEntityDto findById(@PathVariable String id) {
+    return exampleEntityRepository.findById(id)
+        .map(ExampleEntityDto::fromEntity)
+        .orElseThrow(() -> new EntityNotFoundException("Job not found for id: " + id));
+  }
+
+  @DeleteMapping("/{id}")
+  public void delete(@PathVariable String id) {
+    exampleEntityRepository.deleteById(id);
+  }
+}
