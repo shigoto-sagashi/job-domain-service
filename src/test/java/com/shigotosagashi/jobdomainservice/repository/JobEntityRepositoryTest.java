@@ -68,7 +68,7 @@ public class JobEntityRepositoryTest extends BaseRepositoryTest {
   }
 
   @Test
-  void findByExpirationDateAfter() {
+  void findByExpirationDateAfter_findsExpectedEntity() {
     long timeNow = Instant.now().toEpochMilli();
     long timeAfter = timeNow + new Random().nextInt(10000);
     long timeBefore = timeNow - new Random().nextInt(10000);
@@ -89,9 +89,6 @@ public class JobEntityRepositoryTest extends BaseRepositoryTest {
 
     repository.saveAll(jobExpirationDateAfter);
     repository.saveAll(jobExpirationDateBefore);
-
-
-    System.out.println(repository.count());
 
     List<JobEntity> result = repository.findByExpirationDateAfter(timeNow);
     assertThat(result).containsSequence(jobExpirationDateAfter);
