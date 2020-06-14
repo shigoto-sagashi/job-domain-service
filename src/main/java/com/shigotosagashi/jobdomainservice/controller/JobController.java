@@ -23,20 +23,20 @@ public class JobController {
   @Autowired
   private JobEntityRepository jobEntityRepository;
 
-  @PostMapping("/save")
+  @PostMapping
   public JobOut save(
       @Valid @RequestBody JobIn example) {
     return JobOut.fromEntity(jobEntityRepository.save(example.toEntity()));
   }
 
-  @PutMapping("/update/{id}")
+  @PutMapping("/{id}")
   public JobOut update(
       @PathVariable String id,
       @Valid @RequestBody JobIn example) {
     return JobOut.fromEntity(jobEntityRepository.save(example.toEntity(id)));
   }
 
-  @GetMapping("/find/{id}")
+  @GetMapping("/{id}")
   public JobOut findById(
       @PathVariable String id) {
     return jobEntityRepository.findById(id)
@@ -44,7 +44,7 @@ public class JobController {
         .orElseThrow(() -> new EntityNotFoundException("Job not found for id: " + id));
   }
 
-  @DeleteMapping("/delete/{id}")
+  @DeleteMapping("/{id}")
   public void delete(@PathVariable String id) {
     jobEntityRepository.deleteById(id);
   }
