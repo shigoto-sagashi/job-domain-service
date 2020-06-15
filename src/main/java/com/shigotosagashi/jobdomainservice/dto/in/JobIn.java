@@ -5,7 +5,6 @@ import com.shigotosagashi.jobdomainservice.domain.JobEntity;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Optional;
-import java.util.Random;
 import java.util.UUID;
 
 public class JobIn {
@@ -46,7 +45,7 @@ public class JobIn {
         UUID.randomUUID().toString(),
         UUID.randomUUID().toString(),
         Optional.of(Instant.now().toEpochMilli()),
-        Instant.now().toEpochMilli() + new Random().nextLong()
+        Instant.now().toEpochMilli()
     );
   }
 }

@@ -10,7 +10,6 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.Instant;
-import java.util.Random;
 import java.util.UUID;
 
 @Entity
@@ -48,7 +47,7 @@ public class JobEntity {
         .title(UUID.randomUUID().toString())
         .description(UUID.randomUUID().toString())
         .creationDate(Instant.now().toEpochMilli())
-        .expirationDate(Instant.now().toEpochMilli() + new Random().nextLong())
+        .expirationDate(Instant.now().toEpochMilli())
         .build();
   }
 }
