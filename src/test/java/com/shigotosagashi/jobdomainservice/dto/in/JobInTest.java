@@ -22,7 +22,7 @@ public class JobInTest {
   }
 
   @Test
-  void toEntity_whenIdIsIformed_transformsCorrectly() {
+  void toEntity_whenIdIsInformed_transformsCorrectly() {
     String id = UUID.randomUUID().toString();
     JobIn jobIn = JobIn.mock();
     JobEntity result = jobIn.toEntity(id);

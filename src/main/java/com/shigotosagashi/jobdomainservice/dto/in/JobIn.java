@@ -15,9 +15,12 @@ public class JobIn {
   public final String description;
   public final Optional<Long> creationDate;
   @NotNull(message = "Missing required field expirationDate")
-  public final long expirationDate;
+  public final Long expirationDate;
 
-  public JobIn(String title, String description, Optional<Long> creationDate, long expirationDate) {
+  public JobIn(String title,
+               String description,
+               Optional<Long> creationDate,
+               Long expirationDate) {
     this.title = title;
     this.description = description;
     this.creationDate = creationDate;

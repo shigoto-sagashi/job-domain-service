@@ -20,7 +20,6 @@ public class JobEntityRepositoryTest extends BaseRepositoryTest {
   @Autowired
   private JobEntityRepository repository;
 
-
   @Test
   void findByTitleLike_findsExpectedEntity() {
     String textTest = UUID.randomUUID().toString();
@@ -32,15 +31,24 @@ public class JobEntityRepositoryTest extends BaseRepositoryTest {
         .limit(3)
         .collect(Collectors.toList());
 
+    List<JobEntity> jobContainingSameTittle = Stream.generate(() -> JobEntity.mock()
+        .toBuilder()
+        .title(textTest.concat(UUID.randomUUID().toString()))
+        .build())
+        .limit(3)
+        .collect(Collectors.toList());
+
     List<JobEntity> jobDifferentTitle = Stream.generate(JobEntity::mock)
         .limit(3)
         .collect(Collectors.toList());
 
     repository.saveAll(jobsSameTitle);
+    repository.saveAll(jobContainingSameTittle);
     repository.saveAll(jobDifferentTitle);
 
-    List<JobEntity> result = repository.findByTitleLike(textTest);
+    List<JobEntity> result = repository.findByTitleContaining(textTest);
     assertThat(result).containsSequence(jobsSameTitle);
+    assertThat(result).containsSequence(jobContainingSameTittle);
     assertThat(result).doesNotContainSequence(jobDifferentTitle);
   }
 
@@ -55,15 +63,24 @@ public class JobEntityRepositoryTest extends BaseRepositoryTest {
         .limit(3)
         .collect(Collectors.toList());
 
+    List<JobEntity> jobContainingSameDescription = Stream.generate(() -> JobEntity.mock()
+        .toBuilder()
+        .description(textTest.concat(UUID.randomUUID().toString()))
+        .build())
+        .limit(3)
+        .collect(Collectors.toList());
+
     List<JobEntity> jobDifferentDescription = Stream.generate(JobEntity::mock)
         .limit(3)
         .collect(Collectors.toList());
 
     repository.saveAll(jobsSameDescription);
+    repository.saveAll(jobContainingSameDescription);
     repository.saveAll(jobDifferentDescription);
 
-    List<JobEntity> result = repository.findByDescriptionLike(textTest);
+    List<JobEntity> result = repository.findByDescriptionContaining(textTest);
     assertThat(result).containsSequence(jobsSameDescription);
+    assertThat(result).containsSequence(jobContainingSameDescription);
     assertThat(result).doesNotContainSequence(jobDifferentDescription);
   }
 

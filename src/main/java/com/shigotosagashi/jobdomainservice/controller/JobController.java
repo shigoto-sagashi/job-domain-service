@@ -24,24 +24,20 @@ public class JobController {
   private JobEntityRepository jobEntityRepository;
 
   @PostMapping
-  public JobOut save(
-      @Valid @RequestBody JobIn example) {
-    return JobOut.fromEntity(jobEntityRepository.save(example.toEntity()));
+  public JobOut save(@Valid @RequestBody JobIn job) {
+    return JobOut.fromEntity(jobEntityRepository.save(job.toEntity()));
   }
 
   @PutMapping("/{id}")
-  public JobOut update(
-      @PathVariable String id,
-      @Valid @RequestBody JobIn example) {
-    return JobOut.fromEntity(jobEntityRepository.save(example.toEntity(id)));
+  public JobOut update(@PathVariable String id, @Valid @RequestBody JobIn job) {
+    return JobOut.fromEntity(jobEntityRepository.save(job.toEntity(id)));
   }
 
   @GetMapping("/{id}")
-  public JobOut findById(
-      @PathVariable String id) {
+  public JobOut findById(@PathVariable String id) {
     return jobEntityRepository.findById(id)
         .map(JobOut::fromEntity)
-        .orElseThrow(() -> new EntityNotFoundException("Job not found for id: " + id));
+        .orElseThrow(() -> new EntityNotFoundException("Job not found for id: ".concat(id)));
   }
 
   @DeleteMapping("/{id}")

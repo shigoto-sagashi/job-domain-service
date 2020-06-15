@@ -11,10 +11,14 @@ public class JobOut {
   public final String id;
   public final String title;
   public final String description;
-  public final long creationDate;
-  public final long expirationDate;
+  public final Long creationDate;
+  public final Long expirationDate;
 
-  public JobOut(String id, String title, String description, long creationDate, long expirationDate) {
+  public JobOut(String id,
+                String title,
+                String description,
+                Long creationDate,
+                Long expirationDate) {
     this.id = id;
     this.title = title;
     this.description = description;
