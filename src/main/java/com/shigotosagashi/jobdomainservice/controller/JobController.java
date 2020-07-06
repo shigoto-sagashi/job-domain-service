@@ -1,7 +1,8 @@
 package com.shigotosagashi.jobdomainservice.controller;
 
-import com.shigotosagashi.jobdomainservice.dto.out.ExampleEntityDto;
-import com.shigotosagashi.jobdomainservice.repository.ExampleEntityRepository;
+import com.shigotosagashi.jobdomainservice.dto.in.JobIn;
+import com.shigotosagashi.jobdomainservice.dto.out.JobOut;
+import com.shigotosagashi.jobdomainservice.repository.JobEntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,30 +21,27 @@ import javax.validation.Valid;
 public class JobController {
 
   @Autowired
-  private ExampleEntityRepository exampleEntityRepository;
+  private JobEntityRepository jobEntityRepository;
 
   @PostMapping
-  public ExampleEntityDto save(
-      @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
-    return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity()));
+  public JobOut save(@Valid @RequestBody JobIn job) {
+    return JobOut.fromEntity(jobEntityRepository.save(job.toEntity()));
   }
 
   @PutMapping("/{id}")
-  public ExampleEntityDto update(
-      @PathVariable String id,
-      @Valid @RequestBody com.shigotosagashi.jobdomainservice.dto.in.ExampleEntityDto example) {
-    return ExampleEntityDto.fromEntity(exampleEntityRepository.save(example.toEntity(id)));
+  public JobOut update(@PathVariable String id, @Valid @RequestBody JobIn job) {
+    return JobOut.fromEntity(jobEntityRepository.save(job.toEntity(id)));
   }
 
   @GetMapping("/{id}")
-  public ExampleEntityDto findById(@PathVariable String id) {
-    return exampleEntityRepository.findById(id)
-        .map(ExampleEntityDto::fromEntity)
-        .orElseThrow(() -> new EntityNotFoundException("Job not found for id: " + id));
+  public JobOut findById(@PathVariable String id) {
+    return jobEntityRepository.findById(id)
+        .map(JobOut::fromEntity)
+        .orElseThrow(() -> new EntityNotFoundException("Job not found for id: ".concat(id)));
   }
 
   @DeleteMapping("/{id}")
   public void delete(@PathVariable String id) {
-    exampleEntityRepository.deleteById(id);
+    jobEntityRepository.deleteById(id);
   }
 }
